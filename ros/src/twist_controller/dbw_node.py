@@ -67,9 +67,9 @@ class DBWNode(object):
                                     max_steer_angle)
         
         # TODO: Subscribe to all the topics you need to
-        rospy.Subscribe('/vehicle/dbw_enabled',Bool,self.dbw_enabled_cb)
-        rospy.Subscribe('/twist_cmd',TwistStamped,self.twist_cb)
-        rospy.Subscribe('/current_velocity',TwistStamped,self.velocity_cb)
+        rospy.Subscriber('/vehicle/dbw_enabled',Bool,self.dbw_enabled_cb)
+        rospy.Subscriber('/twist_cmd',TwistStamped,self.twist_cb)
+        rospy.Subscriber('/current_velocity',TwistStamped,self.velocity_cb)
 
         self.current_vel = None
         self.curr_ang_vel = None
@@ -90,7 +90,7 @@ class DBWNode(object):
                 self.throttle,self.brake,self.steering = self.controller.control(self.current_vel,
                                                                                 self.dbw_enabled,
                                                                                 self.linear_vel,
-                                                                                slef.angular_vel)
+                                                                                self.angular_vel)
 
             if self.dbw_enabled:
                 self.publish(self.throttle,self.brake,self.steering)
@@ -103,8 +103,9 @@ class DBWNode(object):
     def twist_cb(self,msg):
         self.linear_vel = msg.twist.linear.x
         self.angular_vel = msg.twist.angular.z
+        
     def velocity_cb(self,msg):
-
+        self.current_vel = msg.twist.linear.x
 
 
 
