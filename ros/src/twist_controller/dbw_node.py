@@ -65,7 +65,7 @@ class DBWNode(object):
                                     steer_ratio,
                                     max_lat_accel,
                                     max_steer_angle)
-        
+
         # TODO: Subscribe to all the topics you need to
         rospy.Subscriber('/vehicle/dbw_enabled',Bool,self.dbw_enabled_cb)
         rospy.Subscriber('/twist_cmd',TwistStamped,self.twist_cb)
@@ -106,8 +106,6 @@ class DBWNode(object):
         
     def velocity_cb(self,msg):
         self.current_vel = msg.twist.linear.x
-
-
 
     def publish(self, throttle, brake, steer):
         tcmd = ThrottleCmd()
